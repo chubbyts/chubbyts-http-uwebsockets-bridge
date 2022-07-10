@@ -32,7 +32,7 @@
 Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-uwebsockets-http-bridge][1].
 
 ```ts
-npm i @chubbyts/chubbyts-uwebsockets-http-bridge@^1.0.0
+npm i @chubbyts/chubbyts-uwebsockets-http-bridge@^1.0.1
 ```
 
 ## Usage
@@ -44,7 +44,7 @@ import {
   createUriFactory,
 } from '@chubbyts/chubbyts-http/dist/message-factory';
 import { createResponseToUwebsocketsEmitter, createUwebsocketsToServerRequestFactory } from '@chubbyts/chubbyts-uwebsockets-http-bridge/dist/uwebsocket-http';
-import { HttpRequest, HttpResponse } from 'uWebSockets.js';
+import { App, HttpRequest, HttpResponse } from 'uWebSockets.js';
 
 const app = ...;
 
@@ -59,8 +59,7 @@ const responseToUwebsocketsEmitter = createResponseToUwebsocketsEmitter();
 const host = '0.0.0.0';
 const port = 8080;
 
-require('uWebSockets.js')
-  .App()
+App()
   .any('/*', async (res: HttpResponse, req: HttpRequest) => {
     // function gets excuted on abort
     // empty function means the request/response gets executed to its end
