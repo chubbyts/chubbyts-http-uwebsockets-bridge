@@ -19,7 +19,7 @@
 
 ## Description
 
-
+A uwebsockets req/res http bridge.
 
 ## Requirements
 
@@ -32,7 +32,7 @@
 Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-uwebsockets-http-bridge][1].
 
 ```ts
-npm i @chubbyts/chubbyts-uwebsockets-http-bridge@^1.0.1
+npm i @chubbyts/chubbyts-uwebsockets-http-bridge@^1.0.2
 ```
 
 ## Usage
