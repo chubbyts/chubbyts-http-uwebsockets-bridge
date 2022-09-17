@@ -105,28 +105,28 @@ describe('uwebsocket-http', () => {
       expect(await readStream(body)).toBe('test');
 
       expect(rest).toMatchInlineSnapshot(`
-        Object {
-          "headers": Object {
-            "key1": Array [
+        {
+          "headers": {
+            "key1": [
               "value1",
             ],
-            "key2": Array [
+            "key2": [
               "value2",
             ],
-            "key3": Array [
+            "key3": [
               "value3",
               "value4",
             ],
-            "key4": Array [
+            "key4": [
               "value9",
             ],
-            "key5": Array [
+            "key5": [
               "value12",
             ],
           },
           "protocolVersion": "1.1",
-          "uri": Object {
-            "query": Object {
+          "uri": {
+            "query": {
               "key": "value",
             },
           },
@@ -217,15 +217,15 @@ describe('uwebsocket-http', () => {
       expect(body).toBeInstanceOf(Stream);
 
       expect(rest).toMatchInlineSnapshot(`
-        Object {
-          "headers": Object {
-            "key1": Array [
+        {
+          "headers": {
+            "key1": [
               "value1",
             ],
           },
           "protocolVersion": "1.1",
-          "uri": Object {
-            "query": Object {
+          "uri": {
+            "query": {
               "key": "value",
             },
           },
@@ -315,15 +315,15 @@ describe('uwebsocket-http', () => {
       expect(body).toBeInstanceOf(Stream);
 
       expect(rest).toMatchInlineSnapshot(`
-        Object {
-          "headers": Object {
-            "key1": Array [
+        {
+          "headers": {
+            "key1": [
               "value1",
             ],
           },
           "protocolVersion": "1.1",
-          "uri": Object {
-            "query": Object {
+          "uri": {
+            "query": {
               "key": "value",
             },
           },
@@ -483,15 +483,15 @@ describe('uwebsocket-http', () => {
       expect(body).toBeInstanceOf(Stream);
 
       expect(rest).toMatchInlineSnapshot(`
-        Object {
-          "headers": Object {
-            "key1": Array [
+        {
+          "headers": {
+            "key1": [
               "value1",
             ],
           },
           "protocolVersion": "1.1",
-          "uri": Object {
-            "query": Object {
+          "uri": {
+            "query": {
               "key": "value",
             },
           },
