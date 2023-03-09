@@ -1,6 +1,6 @@
 {
   "name": "@chubbyts/chubbyts-uwebsockets-http-bridge",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A uwebsockets req/res http bridge.",
   "keywords": [
     "chubbyts",
@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@chubbyts/chubbyts-http-types": "^1.0.0",
-    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.19.0"
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.20.0"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^6.2.2",
