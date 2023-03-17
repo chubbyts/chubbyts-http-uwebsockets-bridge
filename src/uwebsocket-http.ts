@@ -16,44 +16,32 @@ type UriOptions =
 
 const getUri = (req: HttpRequest, uriOptions: UriOptions): string => {
   const query = req.getQuery();
-  const pathAndQuery = req.getUrl() + (query ? '?' + query : '');
+  const pathAndQuery = req.getUrl() + (query ? `?${query}` : '');
 
   if (uriOptions === 'forwarded') {
-    const headers: Record<string, string> = {};
-    const missingHeaders = ['x-forwarded-proto', 'x-forwarded-host', 'x-forwarded-port'].filter((name) => {
-      const value = req.getHeader(name);
-      headers[name] = value;
+    const headers = Object.fromEntries(
+      ['x-forwarded-proto', 'x-forwarded-host', 'x-forwarded-port'].map((name) => [name, req.getHeader(name)]),
+    );
 
-      return !value;
-    });
+    const missingHeaders = Object.keys(headers).filter((header) => !headers[header]);
 
-    if (missingHeaders.length > 0) {
+    if (missingHeaders.length) {
       throw new Error(`Missing "${missingHeaders.join('", "')}" header(s).`);
     }
 
-    return (
-      headers['x-forwarded-proto'] +
-      '://' +
-      headers['x-forwarded-host'] +
-      ':' +
-      headers['x-forwarded-port'] +
-      pathAndQuery
-    );
+    const { 'x-forwarded-proto': schema, 'x-forwarded-host': host, 'x-forwarded-port': port } = headers;
+
+    return `${schema}://${host}:${port}${pathAndQuery}`;
   }
 
   const hostHeader = req.getHeader('host');
-
   const schema = uriOptions.schema ?? 'http';
   const host = uriOptions.host ?? (hostHeader || 'localhost');
 
-  return schema + '://' + host + pathAndQuery;
+  return `${schema}://${host}${pathAndQuery}`;
 };
 
-const normalizeHeader = (header: string): Array<string> => {
-  if ('' === header.trim()) {
-    return [];
-  }
-
+const normalizeHeader = (header: string): string[] => {
   return header
     .split(',')
     .map((headerPart) => headerPart.trim())

@@ -343,7 +343,9 @@ describe('uwebsocket-http', () => {
     });
 
     test('with uriOptions forwarded, but missing related headers', () => {
-      const headers: Record<string, string> = {};
+      const headers: Record<string, string> = {
+        'x-forwarded-proto': 'https',
+      };
 
       const forEach = jest.fn();
       const getMethod = jest.fn(() => 'get');
@@ -371,11 +373,6 @@ describe('uwebsocket-http', () => {
 
       const stream = new Duplex();
 
-      const serverRequest = {
-        body: stream,
-        uri,
-      } as ServerRequest;
-
       const uriFactory: UriFactory = jest.fn();
       const serverRequestFactory: ServerRequestFactory = jest.fn();
       const streamFromResourceFactory: StreamFromResourceFactory = jest.fn();
@@ -391,9 +388,7 @@ describe('uwebsocket-http', () => {
         uwebsocketsToServerRequestFactory(req, res);
         fail('expect error');
       } catch (e) {
-        expect(e).toMatchInlineSnapshot(
-          `[Error: Missing "x-forwarded-proto", "x-forwarded-host", "x-forwarded-port" header(s).]`,
-        );
+        expect(e).toMatchInlineSnapshot(`[Error: Missing "x-forwarded-host", "x-forwarded-port" header(s).]`);
       }
 
       expect(forEach).toHaveBeenCalledTimes(1);
