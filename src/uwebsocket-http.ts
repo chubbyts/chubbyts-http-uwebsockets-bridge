@@ -23,7 +23,7 @@ const getUri = (req: HttpRequest, uriOptions: UriOptions): string => {
       ['x-forwarded-proto', 'x-forwarded-host', 'x-forwarded-port'].map((name) => [name, req.getHeader(name)]),
     );
 
-    const missingHeaders = Object.keys(headers).filter((header) => !headers[header]);
+    const missingHeaders = Object.keys(headers).filter((name) => !headers[name]);
 
     if (missingHeaders.length) {
       throw new Error(`Missing "${missingHeaders.join('", "')}" header(s).`);
