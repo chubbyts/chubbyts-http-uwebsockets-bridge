@@ -23,16 +23,16 @@ A uwebsockets req/res http bridge.
 
 ## Requirements
 
- * node: 14
- * [@chubbyts/chubbyts-http-types][2]: ^1.0.0
- * [uWebSockets.js][3]: github:uNetworking/uWebSockets.js#v20.20.0
+ * node: 16
+ * [@chubbyts/chubbyts-http-types][2]: ^1.1.0
+ * [uWebSockets.js][3]: github:uNetworking/uWebSockets.js#v20.24.0
 
 ## Installation
 
 Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-uwebsockets-http-bridge][1].
 
 ```ts
-npm i @chubbyts/chubbyts-uwebsockets-http-bridge@^1.0.6
+npm i @chubbyts/chubbyts-uwebsockets-http-bridge@^1.1.0
 ```
 
 ## Usage

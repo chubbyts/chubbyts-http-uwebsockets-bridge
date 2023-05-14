@@ -1,11 +1,12 @@
-import { HttpRequest, HttpResponse } from 'uWebSockets.js';
-import { Method, Response, ServerRequest } from '@chubbyts/chubbyts-http-types/dist/message';
-import {
+import type { Duplex } from 'stream';
+import { PassThrough } from 'stream';
+import type { HttpRequest, HttpResponse } from 'uWebSockets.js';
+import type { Method, Response, ServerRequest } from '@chubbyts/chubbyts-http-types/dist/message';
+import type {
   ServerRequestFactory,
   StreamFromResourceFactory,
   UriFactory,
 } from '@chubbyts/chubbyts-http-types/dist/message-factory';
-import { Duplex, PassThrough } from 'stream';
 
 type UriOptions =
   | {
@@ -76,6 +77,7 @@ export const createUwebsocketsToServerRequestFactory = (
     req.forEach((name, value) => {
       const normalizedHeaders = normalizeHeader(value);
       if (normalizedHeaders.length) {
+        // eslint-disable-next-line functional/immutable-data
         headers[name] = normalizedHeaders;
       }
     });

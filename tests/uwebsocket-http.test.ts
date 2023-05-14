@@ -1,17 +1,20 @@
-import { describe, expect, test } from '@jest/globals';
 import { Duplex, PassThrough, Stream } from 'stream';
-import { Response, ServerRequest, Uri } from '@chubbyts/chubbyts-http-types/dist/message';
-import {
+import { Blob } from 'buffer';
+import { describe, expect, test } from '@jest/globals';
+import type { Response, ServerRequest, Uri } from '@chubbyts/chubbyts-http-types/dist/message';
+import { Method } from '@chubbyts/chubbyts-http-types/dist/message';
+import type {
   ServerRequestFactory,
   StreamFromResourceFactory,
   UriFactory,
 } from '@chubbyts/chubbyts-http-types/dist/message-factory';
+import type { HttpRequest, HttpResponse } from 'uWebSockets.js';
+import { useFunctionMock } from '@chubbyts/chubbyts-function-mock/dist/function-mock';
 import { createUwebsocketsToServerRequestFactory, createResponseToUwebsocketsEmitter } from '../src/uwebsocket-http';
-import { HttpRequest, HttpResponse } from 'uWebSockets.js';
-import { Blob } from 'buffer';
 
 const readStream = async (stream: Stream) => {
   return new Promise((resolve, reject) => {
+    // eslint-disable-next-line functional/no-let
     let data = '';
 
     stream.on('data', (chunk) => (data += chunk));
@@ -73,24 +76,21 @@ describe('uwebsocket-http', () => {
         uri,
       } as ServerRequest;
 
-      const uriFactory: UriFactory = jest.fn((givenUri: string): Uri => {
-        expect(givenUri).toBe('http://localhost/api?key=value');
+      const [uriFactory, uriFactoryMocks] = useFunctionMock<UriFactory>([
+        { parameters: ['http://localhost/api?key=value'], return: uri },
+      ]);
 
-        return uri;
-      });
+      const [serverRequestFactory, serverRequestFactoryMocks] = useFunctionMock<ServerRequestFactory>([
+        { parameters: [Method.GET, uri], return: serverRequest },
+      ]);
 
-      const serverRequestFactory: ServerRequestFactory = jest.fn(
-        (givenMethod: string, givenUri: Uri | string): ServerRequest => {
-          expect(givenMethod).toBe('GET');
-          expect(givenUri).toBe(uri);
-
-          return serverRequest;
+      const [streamFromResourceFactory, streamFromResourceFactoryMocks] = useFunctionMock<StreamFromResourceFactory>([
+        {
+          callback: (givenStream: Stream): Duplex => {
+            return givenStream as Duplex;
+          },
         },
-      );
-
-      const streamFromResourceFactory: StreamFromResourceFactory = jest.fn((givenStream: Stream): Duplex => {
-        return givenStream as Duplex;
-      });
+      ]);
 
       const uwebsocketsToServerRequestFactory = createUwebsocketsToServerRequestFactory(
         uriFactory,
@@ -140,12 +140,12 @@ describe('uwebsocket-http', () => {
       expect(getHeader).toHaveBeenCalledTimes(1);
       expect(onData).toHaveBeenCalledTimes(1);
 
-      expect(serverRequestFactory).toHaveBeenCalledTimes(1);
-      expect(uriFactory).toHaveBeenCalledTimes(1);
-      expect(streamFromResourceFactory).toHaveBeenCalledTimes(1);
+      expect(uriFactoryMocks.length).toBe(0);
+      expect(serverRequestFactoryMocks.length).toBe(0);
+      expect(streamFromResourceFactoryMocks.length).toBe(0);
     });
 
-    test('without uriOptions', () => {
+    test('without uriOptions', async () => {
       const headers: Record<string, string> = {
         host: 'localhost:10080',
       };
@@ -170,7 +170,12 @@ describe('uwebsocket-http', () => {
         getHeader,
       } as unknown as HttpRequest;
 
-      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {});
+      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
+        setTimeout(async () => {
+          callback(await new Blob(['te'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), false);
+          callback(await new Blob(['st'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), true);
+        }, 100);
+      });
 
       const res = {
         onData,
@@ -187,24 +192,21 @@ describe('uwebsocket-http', () => {
         uri,
       } as ServerRequest;
 
-      const uriFactory: UriFactory = jest.fn((givenUri: string): Uri => {
-        expect(givenUri).toBe('http://localhost:10080/api');
+      const [uriFactory, uriFactoryMocks] = useFunctionMock<UriFactory>([
+        { parameters: ['http://localhost:10080/api'], return: uri },
+      ]);
 
-        return uri;
-      });
+      const [serverRequestFactory, serverRequestFactoryMocks] = useFunctionMock<ServerRequestFactory>([
+        { parameters: [Method.GET, uri], return: serverRequest },
+      ]);
 
-      const serverRequestFactory: ServerRequestFactory = jest.fn(
-        (givenMethod: string, givenUri: Uri | string): ServerRequest => {
-          expect(givenMethod).toBe('GET');
-          expect(givenUri).toBe(uri);
-
-          return serverRequest;
+      const [streamFromResourceFactory, streamFromResourceFactoryMocks] = useFunctionMock<StreamFromResourceFactory>([
+        {
+          callback: (givenStream: Stream): Duplex => {
+            return givenStream as Duplex;
+          },
         },
-      );
-
-      const streamFromResourceFactory: StreamFromResourceFactory = jest.fn((givenStream: Stream): Duplex => {
-        return givenStream as Duplex;
-      });
+      ]);
 
       const uwebsocketsToServerRequestFactory = createUwebsocketsToServerRequestFactory(
         uriFactory,
@@ -215,6 +217,8 @@ describe('uwebsocket-http', () => {
       const { body, ...rest } = uwebsocketsToServerRequestFactory(req, res);
 
       expect(body).toBeInstanceOf(Stream);
+
+      expect(await readStream(body)).toBe('test');
 
       expect(rest).toMatchInlineSnapshot(`
         {
@@ -239,12 +243,12 @@ describe('uwebsocket-http', () => {
       expect(getHeader).toHaveBeenCalledTimes(1);
       expect(onData).toHaveBeenCalledTimes(1);
 
-      expect(serverRequestFactory).toHaveBeenCalledTimes(1);
-      expect(uriFactory).toHaveBeenCalledTimes(1);
-      expect(streamFromResourceFactory).toHaveBeenCalledTimes(1);
+      expect(uriFactoryMocks.length).toBe(0);
+      expect(serverRequestFactoryMocks.length).toBe(0);
+      expect(streamFromResourceFactoryMocks.length).toBe(0);
     });
 
-    test('with uriOptions scheme and host', () => {
+    test('with uriOptions scheme and host', async () => {
       const headers: Record<string, string> = {};
 
       const forEach = jest.fn((callback: (name: string, value: string) => void): void => {
@@ -267,7 +271,12 @@ describe('uwebsocket-http', () => {
         getHeader,
       } as unknown as HttpRequest;
 
-      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {});
+      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
+        setTimeout(async () => {
+          callback(await new Blob(['te'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), false);
+          callback(await new Blob(['st'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), true);
+        }, 100);
+      });
 
       const res = {
         onData,
@@ -284,24 +293,21 @@ describe('uwebsocket-http', () => {
         uri,
       } as ServerRequest;
 
-      const uriFactory: UriFactory = jest.fn((givenUri: string): Uri => {
-        expect(givenUri).toBe('https://some-host/api');
+      const [uriFactory, uriFactoryMocks] = useFunctionMock<UriFactory>([
+        { parameters: ['https://some-host/api'], return: uri },
+      ]);
 
-        return uri;
-      });
+      const [serverRequestFactory, serverRequestFactoryMocks] = useFunctionMock<ServerRequestFactory>([
+        { parameters: [Method.GET, uri], return: serverRequest },
+      ]);
 
-      const serverRequestFactory: ServerRequestFactory = jest.fn(
-        (givenMethod: string, givenUri: Uri | string): ServerRequest => {
-          expect(givenMethod).toBe('GET');
-          expect(givenUri).toBe(uri);
-
-          return serverRequest;
+      const [streamFromResourceFactory, streamFromResourceFactoryMocks] = useFunctionMock<StreamFromResourceFactory>([
+        {
+          callback: (givenStream: Stream): Duplex => {
+            return givenStream as Duplex;
+          },
         },
-      );
-
-      const streamFromResourceFactory: StreamFromResourceFactory = jest.fn((givenStream: Stream): Duplex => {
-        return givenStream as Duplex;
-      });
+      ]);
 
       const uwebsocketsToServerRequestFactory = createUwebsocketsToServerRequestFactory(
         uriFactory,
@@ -313,6 +319,8 @@ describe('uwebsocket-http', () => {
       const { body, ...rest } = uwebsocketsToServerRequestFactory(req, res);
 
       expect(body).toBeInstanceOf(Stream);
+
+      expect(await readStream(body)).toBe('test');
 
       expect(rest).toMatchInlineSnapshot(`
         {
@@ -337,9 +345,9 @@ describe('uwebsocket-http', () => {
       expect(getHeader).toHaveBeenCalledTimes(1);
       expect(onData).toHaveBeenCalledTimes(1);
 
-      expect(serverRequestFactory).toHaveBeenCalledTimes(1);
-      expect(uriFactory).toHaveBeenCalledTimes(1);
-      expect(streamFromResourceFactory).toHaveBeenCalledTimes(1);
+      expect(uriFactoryMocks.length).toBe(0);
+      expect(serverRequestFactoryMocks.length).toBe(0);
+      expect(streamFromResourceFactoryMocks.length).toBe(0);
     });
 
     test('with uriOptions forwarded, but missing related headers', () => {
@@ -361,21 +369,17 @@ describe('uwebsocket-http', () => {
         getHeader,
       } as unknown as HttpRequest;
 
-      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {});
+      const onData = jest.fn();
 
       const res = {
         onData,
       } as unknown as HttpResponse;
 
-      const uri = {
-        query: { key: 'value' },
-      } as unknown as Uri;
-
-      const stream = new Duplex();
-
-      const uriFactory: UriFactory = jest.fn();
-      const serverRequestFactory: ServerRequestFactory = jest.fn();
-      const streamFromResourceFactory: StreamFromResourceFactory = jest.fn();
+      const [uriFactory, uriFactoryMocks] = useFunctionMock<UriFactory>([]);
+      const [serverRequestFactory, serverRequestFactoryMocks] = useFunctionMock<ServerRequestFactory>([]);
+      const [streamFromResourceFactory, streamFromResourceFactoryMocks] = useFunctionMock<StreamFromResourceFactory>(
+        [],
+      );
 
       const uwebsocketsToServerRequestFactory = createUwebsocketsToServerRequestFactory(
         uriFactory,
@@ -388,7 +392,7 @@ describe('uwebsocket-http', () => {
         uwebsocketsToServerRequestFactory(req, res);
         fail('expect error');
       } catch (e) {
-        expect(e).toMatchInlineSnapshot(`[Error: Missing "x-forwarded-host", "x-forwarded-port" header(s).]`);
+        expect(e).toMatchInlineSnapshot('[Error: Missing "x-forwarded-host", "x-forwarded-port" header(s).]');
       }
 
       expect(forEach).toHaveBeenCalledTimes(1);
@@ -398,12 +402,12 @@ describe('uwebsocket-http', () => {
       expect(getHeader).toHaveBeenCalledTimes(3);
       expect(onData).toHaveBeenCalledTimes(0);
 
-      expect(serverRequestFactory).toHaveBeenCalledTimes(0);
-      expect(uriFactory).toHaveBeenCalledTimes(0);
-      expect(streamFromResourceFactory).toHaveBeenCalledTimes(0);
+      expect(uriFactoryMocks.length).toBe(0);
+      expect(serverRequestFactoryMocks.length).toBe(0);
+      expect(streamFromResourceFactoryMocks.length).toBe(0);
     });
 
-    test('with uriOptions forwarded', () => {
+    test('with uriOptions forwarded', async () => {
       const headers: Record<string, string> = {
         'x-forwarded-proto': 'https',
         'x-forwarded-host': 'localhost',
@@ -430,7 +434,12 @@ describe('uwebsocket-http', () => {
         getHeader,
       } as unknown as HttpRequest;
 
-      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {});
+      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
+        setTimeout(async () => {
+          callback(await new Blob(['te'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), false);
+          callback(await new Blob(['st'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), true);
+        }, 100);
+      });
 
       const res = {
         onData,
@@ -447,24 +456,21 @@ describe('uwebsocket-http', () => {
         uri,
       } as ServerRequest;
 
-      const uriFactory: UriFactory = jest.fn((givenUri: string): Uri => {
-        expect(givenUri).toBe('https://localhost:10443/api?key=value');
+      const [uriFactory, uriFactoryMocks] = useFunctionMock<UriFactory>([
+        { parameters: ['https://localhost:10443/api?key=value'], return: uri },
+      ]);
 
-        return uri;
-      });
+      const [serverRequestFactory, serverRequestFactoryMocks] = useFunctionMock<ServerRequestFactory>([
+        { parameters: [Method.GET, uri], return: serverRequest },
+      ]);
 
-      const serverRequestFactory: ServerRequestFactory = jest.fn(
-        (givenMethod: string, givenUri: Uri | string): ServerRequest => {
-          expect(givenMethod).toBe('GET');
-          expect(givenUri).toBe(uri);
-
-          return serverRequest;
+      const [streamFromResourceFactory, streamFromResourceFactoryMocks] = useFunctionMock<StreamFromResourceFactory>([
+        {
+          callback: (givenStream: Stream): Duplex => {
+            return givenStream as Duplex;
+          },
         },
-      );
-
-      const streamFromResourceFactory: StreamFromResourceFactory = jest.fn((givenStream: Stream): Duplex => {
-        return givenStream as Duplex;
-      });
+      ]);
 
       const uwebsocketsToServerRequestFactory = createUwebsocketsToServerRequestFactory(
         uriFactory,
@@ -476,6 +482,8 @@ describe('uwebsocket-http', () => {
       const { body, ...rest } = uwebsocketsToServerRequestFactory(req, res);
 
       expect(body).toBeInstanceOf(Stream);
+
+      expect(await readStream(body)).toBe('test');
 
       expect(rest).toMatchInlineSnapshot(`
         {
@@ -500,9 +508,9 @@ describe('uwebsocket-http', () => {
       expect(getHeader).toHaveBeenCalledTimes(3);
       expect(onData).toHaveBeenCalledTimes(1);
 
-      expect(serverRequestFactory).toHaveBeenCalledTimes(1);
-      expect(uriFactory).toHaveBeenCalledTimes(1);
-      expect(streamFromResourceFactory).toHaveBeenCalledTimes(1);
+      expect(uriFactoryMocks.length).toBe(0);
+      expect(serverRequestFactoryMocks.length).toBe(0);
+      expect(streamFromResourceFactoryMocks.length).toBe(0);
     });
   });
 
@@ -524,14 +532,17 @@ describe('uwebsocket-http', () => {
     const writeStatus = jest.fn((status: string) => {
       expect(status).toBe('200 OK');
     });
+
     const writeHeader = jest.fn((key: string, value: string) => {
       expect(key).toBe('key1');
       expect(value).toBe('value11, value12');
     });
+
     const write = jest.fn((buffer: ArrayBuffer) => {
       expect(new TextDecoder('utf-8').decode(buffer)).toBe('{"key":"value"}');
     });
-    const end = jest.fn((text: string) => {});
+
+    const end = jest.fn();
 
     const res = {
       writeStatus,
