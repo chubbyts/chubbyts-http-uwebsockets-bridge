@@ -1,7 +1,7 @@
 {
   "name": "@chubbyts/chubbyts-uwebsockets-http-bridge",
   "type": "module",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A uwebsockets req/res http bridge.",
   "keywords": [
     "chubbyts",
@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@chubbyts/chubbyts-http-types": "^1.2.3",
-    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.31.0"
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.34.0"
   },
   "devDependencies": {
     "@chubbyts/chubbyts-eslint": "^2.0.3",
