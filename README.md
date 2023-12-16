@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/chubbyts/chubbyts-uwebsockets-http-bridge/workflows/CI/badge.svg?branch=master)](https://github.com/chubbyts/chubbyts-uwebsockets-http-bridge/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/chubbyts/chubbyts-uwebsockets-http-bridge/badge.svg?branch=master)](https://coveralls.io/github/chubbyts/chubbyts-uwebsockets-http-bridge?branch=master)
-[![Infection MSI](https://badge.stryker-mutator.io/github.com/chubbyts/chubbyts-uwebsockets-http-bridge/master)](https://dashboard.stryker-mutator.io/reports/github.com/chubbyts/chubbyts-uwebsockets-http-bridge/master)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fchubbyts%2Fchubbyts-uwebsockets-http-bridge%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/chubbyts/chubbyts-uwebsockets-http-bridge/master)
 [![npm-version](https://img.shields.io/npm/v/@chubbyts/chubbyts-uwebsockets-http-bridge.svg)](https://www.npmjs.com/package/@chubbyts/chubbyts-uwebsockets-http-bridge)
 
 [![bugs](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=bugs)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
