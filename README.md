@@ -75,7 +75,7 @@ App()
 
 ## Copyright
 
-2023 Dominik Zogg
+2024 Dominik Zogg
 
 [1]: https://www.npmjs.com/package/@chubbyts/chubbyts-uwebsockets-http-bridge
 [2]: https://www.npmjs.com/package/@chubbyts/chubbyts-http-types
