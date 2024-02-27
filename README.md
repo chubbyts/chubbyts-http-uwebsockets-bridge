@@ -1,21 +1,21 @@
-# chubbyts-uwebsockets-http-bridge
+# chubbyts-http-uwebsockets-bridge
 
-[![CI](https://github.com/chubbyts/chubbyts-uwebsockets-http-bridge/workflows/CI/badge.svg?branch=master)](https://github.com/chubbyts/chubbyts-uwebsockets-http-bridge/actions?query=workflow%3ACI)
-[![Coverage Status](https://coveralls.io/repos/github/chubbyts/chubbyts-uwebsockets-http-bridge/badge.svg?branch=master)](https://coveralls.io/github/chubbyts/chubbyts-uwebsockets-http-bridge?branch=master)
-[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fchubbyts%2Fchubbyts-uwebsockets-http-bridge%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/chubbyts/chubbyts-uwebsockets-http-bridge/master)
-[![npm-version](https://img.shields.io/npm/v/@chubbyts/chubbyts-uwebsockets-http-bridge.svg)](https://www.npmjs.com/package/@chubbyts/chubbyts-uwebsockets-http-bridge)
+[![CI](https://github.com/chubbyts/chubbyts-http-uwebsockets-bridge/workflows/CI/badge.svg?branch=master)](https://github.com/chubbyts/chubbyts-http-uwebsockets-bridge/actions?query=workflow%3ACI)
+[![Coverage Status](https://coveralls.io/repos/github/chubbyts/chubbyts-http-uwebsockets-bridge/badge.svg?branch=master)](https://coveralls.io/github/chubbyts/chubbyts-http-uwebsockets-bridge?branch=master)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fchubbyts%2Fchubbyts-http-uwebsockets-bridge%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/chubbyts/chubbyts-http-uwebsockets-bridge/master)
+[![npm-version](https://img.shields.io/npm/v/@chubbyts/chubbyts-http-uwebsockets-bridge.svg)](https://www.npmjs.com/package/@chubbyts/chubbyts-http-uwebsockets-bridge)
 
-[![bugs](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=bugs)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![code_smells](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=code_smells)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![coverage](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=coverage)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![duplicated_lines_density](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![ncloc](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=ncloc)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![sqale_rating](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![alert_status](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=alert_status)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![reliability_rating](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![security_rating](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=security_rating)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![sqale_index](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=sqale_index)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
-[![vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-uwebsockets-http-bridge&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-uwebsockets-http-bridge)
+[![bugs](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=bugs)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![code_smells](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=code_smells)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![coverage](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=coverage)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![duplicated_lines_density](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![ncloc](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=ncloc)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![sqale_rating](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![alert_status](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=alert_status)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![reliability_rating](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![security_rating](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=security_rating)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![sqale_index](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=sqale_index)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
+[![vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=chubbyts_chubbyts-http-uwebsockets-bridge&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=chubbyts_chubbyts-http-uwebsockets-bridge)
 
 ## Description
 
@@ -29,10 +29,10 @@ A uwebsockets req/res http bridge.
 
 ## Installation
 
-Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-uwebsockets-http-bridge][1].
+Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-http-uwebsockets-bridge][1].
 
 ```ts
-npm i @chubbyts/chubbyts-uwebsockets-http-bridge@^1.2.1
+npm i @chubbyts/chubbyts-http-uwebsockets-bridge@^1.2.1
 ```
 
 ## Usage
@@ -43,7 +43,7 @@ import {
   createStreamFromResourceFactory,
   createUriFactory,
 } from '@chubbyts/chubbyts-http/dist/message-factory';
-import { createResponseToUwebsocketsEmitter, createUwebsocketsToServerRequestFactory } from '@chubbyts/chubbyts-uwebsockets-http-bridge/dist/uwebsocket-http';
+import { createResponseToUwebsocketsEmitter, createUwebsocketsToServerRequestFactory } from '@chubbyts/chubbyts-http-uwebsockets-bridge/dist/uwebsocket-http';
 import { App, HttpRequest, HttpResponse } from 'uWebSockets.js';
 
 const app = ...;
@@ -77,6 +77,6 @@ App()
 
 2024 Dominik Zogg
 
-[1]: https://www.npmjs.com/package/@chubbyts/chubbyts-uwebsockets-http-bridge
+[1]: https://www.npmjs.com/package/@chubbyts/chubbyts-http-uwebsockets-bridge
 [2]: https://www.npmjs.com/package/@chubbyts/chubbyts-http-types
 [3]: https://github.com/uNetworking/uWebSockets.js

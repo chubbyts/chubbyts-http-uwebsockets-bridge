@@ -1,5 +1,5 @@
 {
-  "name": "@chubbyts/chubbyts-uwebsockets-http-bridge",
+  "name": "@chubbyts/chubbyts-http-uwebsockets-bridge",
   "type": "module",
   "version": "1.2.1",
   "description": "A uwebsockets req/res http bridge.",
@@ -10,7 +10,7 @@
   ],
   "author": "Dominik Zogg",
   "license": "MIT",
-  "repository": "chubbyts/chubbyts-uwebsockets-http-bridge",
+  "repository": "chubbyts/chubbyts-http-uwebsockets-bridge",
   "scripts": {
     "build": "node ./build.js",
     "cs-fix": "prettier --write src tests",
