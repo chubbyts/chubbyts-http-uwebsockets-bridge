@@ -25,7 +25,7 @@ A uwebsockets req/res http bridge.
 
  * node: 16
  * [@chubbyts/chubbyts-http-types][2]: ^1.2.3
- * [uWebSockets.js][3]: github:uNetworking/uWebSockets.js#v20.34.0
+ * [uWebSockets.js][3]: github:uNetworking/uWebSockets.js#v20.43.0
 
 ## Installation
 
