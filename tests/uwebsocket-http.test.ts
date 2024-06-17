@@ -1,6 +1,6 @@
 import { Duplex, PassThrough, Stream } from 'stream';
 import { Blob } from 'buffer';
-import { describe, expect, test } from '@jest/globals';
+import { describe, expect, test, vi } from 'vitest';
 import type { Response, ServerRequest, Uri } from '@chubbyts/chubbyts-http-types/dist/message';
 import { Method } from '@chubbyts/chubbyts-http-types/dist/message';
 import type {
@@ -36,15 +36,15 @@ describe('uwebsocket-http', () => {
         key7: ' ',
       };
 
-      const forEach = jest.fn((callback: (name: string, value: string) => void): void => {
+      const forEach = vi.fn((callback: (name: string, value: string) => void): void => {
         Object.entries(headers).forEach(([name, value]) => {
           callback(name, value);
         });
       });
-      const getMethod = jest.fn(() => 'get');
-      const getQuery = jest.fn(() => 'key=value');
-      const getUrl = jest.fn(() => '/api');
-      const getHeader = jest.fn((name: string) => headers[name] || '');
+      const getMethod = vi.fn(() => 'get');
+      const getQuery = vi.fn(() => 'key=value');
+      const getUrl = vi.fn(() => '/api');
+      const getHeader = vi.fn((name: string) => headers[name] || '');
 
       const req = {
         forEach,
@@ -54,7 +54,7 @@ describe('uwebsocket-http', () => {
         getHeader,
       } as unknown as HttpRequest;
 
-      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
+      const onData = vi.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
         setTimeout(async () => {
           callback(await new Blob(['te'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), false);
           callback(await new Blob(['st'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), true);
@@ -150,17 +150,17 @@ describe('uwebsocket-http', () => {
         host: 'localhost:10080',
       };
 
-      const forEach = jest.fn((callback: (name: string, value: string) => void): void => {
+      const forEach = vi.fn((callback: (name: string, value: string) => void): void => {
         Object.entries({
           key1: 'value1',
         }).forEach(([name, value]) => {
           callback(name, value);
         });
       });
-      const getMethod = jest.fn(() => 'get');
-      const getQuery = jest.fn(() => '');
-      const getUrl = jest.fn(() => '/api');
-      const getHeader = jest.fn((name: string) => headers[name] || '');
+      const getMethod = vi.fn(() => 'get');
+      const getQuery = vi.fn(() => '');
+      const getUrl = vi.fn(() => '/api');
+      const getHeader = vi.fn((name: string) => headers[name] || '');
 
       const req = {
         forEach,
@@ -170,7 +170,7 @@ describe('uwebsocket-http', () => {
         getHeader,
       } as unknown as HttpRequest;
 
-      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
+      const onData = vi.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
         setTimeout(async () => {
           callback(await new Blob(['te'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), false);
           callback(await new Blob(['st'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), true);
@@ -251,17 +251,17 @@ describe('uwebsocket-http', () => {
     test('with uriOptions scheme and host', async () => {
       const headers: Record<string, string> = {};
 
-      const forEach = jest.fn((callback: (name: string, value: string) => void): void => {
+      const forEach = vi.fn((callback: (name: string, value: string) => void): void => {
         Object.entries({
           key1: 'value1',
         }).forEach(([name, value]) => {
           callback(name, value);
         });
       });
-      const getMethod = jest.fn(() => 'get');
-      const getQuery = jest.fn(() => '');
-      const getUrl = jest.fn(() => '/api');
-      const getHeader = jest.fn((name: string) => headers[name] || '');
+      const getMethod = vi.fn(() => 'get');
+      const getQuery = vi.fn(() => '');
+      const getUrl = vi.fn(() => '/api');
+      const getHeader = vi.fn((name: string) => headers[name] || '');
 
       const req = {
         forEach,
@@ -271,7 +271,7 @@ describe('uwebsocket-http', () => {
         getHeader,
       } as unknown as HttpRequest;
 
-      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
+      const onData = vi.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
         setTimeout(async () => {
           callback(await new Blob(['te'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), false);
           callback(await new Blob(['st'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), true);
@@ -355,11 +355,11 @@ describe('uwebsocket-http', () => {
         'x-forwarded-proto': 'https',
       };
 
-      const forEach = jest.fn();
-      const getMethod = jest.fn(() => 'get');
-      const getQuery = jest.fn(() => 'key=value');
-      const getUrl = jest.fn(() => '/api');
-      const getHeader = jest.fn((name: string) => headers[name] || '');
+      const forEach = vi.fn();
+      const getMethod = vi.fn(() => 'get');
+      const getQuery = vi.fn(() => 'key=value');
+      const getUrl = vi.fn(() => '/api');
+      const getHeader = vi.fn((name: string) => headers[name] || '');
 
       const req = {
         forEach,
@@ -369,7 +369,7 @@ describe('uwebsocket-http', () => {
         getHeader,
       } as unknown as HttpRequest;
 
-      const onData = jest.fn();
+      const onData = vi.fn();
 
       const res = {
         onData,
@@ -414,17 +414,17 @@ describe('uwebsocket-http', () => {
         'x-forwarded-port': '10443',
       };
 
-      const forEach = jest.fn((callback: (name: string, value: string) => void): void => {
+      const forEach = vi.fn((callback: (name: string, value: string) => void): void => {
         Object.entries({
           key1: 'value1',
         }).forEach(([name, value]) => {
           callback(name, value);
         });
       });
-      const getMethod = jest.fn(() => 'get');
-      const getQuery = jest.fn(() => 'key=value');
-      const getUrl = jest.fn(() => '/api');
-      const getHeader = jest.fn((name: string) => headers[name] || '');
+      const getMethod = vi.fn(() => 'get');
+      const getQuery = vi.fn(() => 'key=value');
+      const getUrl = vi.fn(() => '/api');
+      const getHeader = vi.fn((name: string) => headers[name] || '');
 
       const req = {
         forEach,
@@ -434,7 +434,7 @@ describe('uwebsocket-http', () => {
         getHeader,
       } as unknown as HttpRequest;
 
-      const onData = jest.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
+      const onData = vi.fn((callback: (chunk: ArrayBuffer, isLast: boolean) => void): void => {
         setTimeout(async () => {
           callback(await new Blob(['te'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), false);
           callback(await new Blob(['st'], { type: 'text/plain; charset=utf-8' }).arrayBuffer(), true);
@@ -529,20 +529,20 @@ describe('uwebsocket-http', () => {
       body,
     } as unknown as Response;
 
-    const writeStatus = jest.fn((status: string) => {
+    const writeStatus = vi.fn((status: string) => {
       expect(status).toBe('200 OK');
     });
 
-    const writeHeader = jest.fn((key: string, value: string) => {
+    const writeHeader = vi.fn((key: string, value: string) => {
       expect(key).toBe('key1');
       expect(value).toBe('value11, value12');
     });
 
-    const write = jest.fn((buffer: ArrayBuffer) => {
+    const write = vi.fn((buffer: ArrayBuffer) => {
       expect(new TextDecoder('utf-8').decode(buffer)).toBe('{"key":"value"}');
     });
 
-    const end = jest.fn();
+    const end = vi.fn();
 
     const res = {
       writeStatus,
