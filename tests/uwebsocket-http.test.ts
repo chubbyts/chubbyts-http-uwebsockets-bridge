@@ -19,7 +19,7 @@ const readStream = async (stream: Stream) => {
 
     stream.on('data', (chunk) => (data += chunk));
     stream.on('end', () => resolve(data));
-    stream.on('error', (error) => reject(error));
+    stream.on('error', reject);
   });
 };
 
@@ -390,7 +390,7 @@ describe('uwebsocket-http', () => {
 
       try {
         uwebsocketsToServerRequestFactory(req, res);
-        fail('expect error');
+        throw new Error('expect error');
       } catch (e) {
         expect(e).toMatchInlineSnapshot('[Error: Missing "x-forwarded-host", "x-forwarded-port" header(s).]');
       }
