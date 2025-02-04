@@ -2,7 +2,6 @@ import { Duplex, PassThrough, Stream } from 'stream';
 import { Blob } from 'buffer';
 import { describe, expect, test, vi } from 'vitest';
 import type { Response, ServerRequest, Uri } from '@chubbyts/chubbyts-http-types/dist/message';
-import { Method } from '@chubbyts/chubbyts-http-types/dist/message';
 import type {
   ServerRequestFactory,
   StreamFromResourceFactory,
@@ -81,7 +80,7 @@ describe('uwebsocket-http', () => {
       ]);
 
       const [serverRequestFactory, serverRequestFactoryMocks] = useFunctionMock<ServerRequestFactory>([
-        { parameters: [Method.GET, uri], return: serverRequest },
+        { parameters: ['GET', uri], return: serverRequest },
       ]);
 
       const [streamFromResourceFactory, streamFromResourceFactoryMocks] = useFunctionMock<StreamFromResourceFactory>([
@@ -197,7 +196,7 @@ describe('uwebsocket-http', () => {
       ]);
 
       const [serverRequestFactory, serverRequestFactoryMocks] = useFunctionMock<ServerRequestFactory>([
-        { parameters: [Method.GET, uri], return: serverRequest },
+        { parameters: ['GET', uri], return: serverRequest },
       ]);
 
       const [streamFromResourceFactory, streamFromResourceFactoryMocks] = useFunctionMock<StreamFromResourceFactory>([
@@ -298,7 +297,7 @@ describe('uwebsocket-http', () => {
       ]);
 
       const [serverRequestFactory, serverRequestFactoryMocks] = useFunctionMock<ServerRequestFactory>([
-        { parameters: [Method.GET, uri], return: serverRequest },
+        { parameters: ['GET', uri], return: serverRequest },
       ]);
 
       const [streamFromResourceFactory, streamFromResourceFactoryMocks] = useFunctionMock<StreamFromResourceFactory>([
@@ -461,7 +460,7 @@ describe('uwebsocket-http', () => {
       ]);
 
       const [serverRequestFactory, serverRequestFactoryMocks] = useFunctionMock<ServerRequestFactory>([
-        { parameters: [Method.GET, uri], return: serverRequest },
+        { parameters: ['GET', uri], return: serverRequest },
       ]);
 
       const [streamFromResourceFactory, streamFromResourceFactoryMocks] = useFunctionMock<StreamFromResourceFactory>([
